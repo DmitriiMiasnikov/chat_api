@@ -11,7 +11,18 @@ router.get(
   async (req, res) => {
     try {
       const page = Number(req.params.page);
-      const chats = await Chats.find({}).skip(page * 30 - 30).limit(30);
+      const chatsList = await Chats.find({}).skip(page * 30 - 30).limit(30);
+      const chats = [];
+      for (const item of chatsList) {
+        const user = await Users.findOne({ _id: item.user_id }, 'userName')
+        const newItem = {
+          userName: user.userName,
+          title: item.title,
+          date: item.date,
+          id: item._id
+        };
+        chats.push(newItem);
+      }
       res.status(200).json({ chats })
     } catch (e) {
       console.log(e)
