@@ -66,12 +66,12 @@ router.post(
 )
 
 // удалить чат
-// /chats/remove/
-router.get(
-  '/remove/',
+// /chats/:chatId
+router.delete(
+  '/:chatId',
   async (req, res) => {
     try {
-      const chatId = req.query.chatId;
+      const chatId = req.params.chatId;
       const chat = await Chats.findByIdAndDelete(chatId);
       res.status(200).json({ chat })
     } catch (e) {
@@ -81,12 +81,12 @@ router.get(
 )
 
 // изменить название
-// /chats/rename
-router.get(
-  '/rename/',
+// /chats/rename/:chatId
+router.put(
+  '/rename/:chatId',
   async (req, res) => {
     try {
-      const chatId = req.query.chatId;
+      const chatId = req.params.chatId;
       const newTitle = req.query.newTitle;
       const chat = await Chats.findByIdAndUpdate(chatId, { title: newTitle });
       res.status(200).json({ chat })
