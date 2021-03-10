@@ -65,4 +65,35 @@ router.post(
   }
 )
 
+// удалить чат
+// /chats/remove/
+router.get(
+  '/remove/',
+  async (req, res) => {
+    try {
+      const chatId = req.query.chatId;
+      const chat = await Chats.findByIdAndDelete(chatId);
+      res.status(200).json({ chat })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
+// изменить название
+// /chats/rename
+router.get(
+  '/rename/',
+  async (req, res) => {
+    try {
+      const chatId = req.query.chatId;
+      const newTitle = req.query.newTitle;
+      const chat = await Chats.findByIdAndUpdate(chatId, { title: newTitle });
+      res.status(200).json({ chat })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
 module.exports = router;
