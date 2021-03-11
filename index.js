@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const usersRoutes = require('./routes/usersRoutes');
 const chatsRoutes = require('./routes/chatsRoutes');
+const messagesRoutes = require('./routes/messagesRoutes');
 const cors = require('cors');
 
 // const session = require('express-session');
@@ -30,6 +31,7 @@ app.use(cors());
 app.options('*', cors());
 app.use('/users', usersRoutes);
 app.use('/chats', chatsRoutes);
+app.use('/messages', messagesRoutes);
 
 const start = async () => {
   try {
