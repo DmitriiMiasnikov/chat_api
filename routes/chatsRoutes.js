@@ -11,7 +11,7 @@ router.get(
   async (req, res) => {
     try {
       const page = Number(req.params.page);
-      const chatsList = await Chats.find({}).skip(page * 30 - 30).limit(30);
+      const chatsList = await Chats.find({}).sort({ date: -1 }).skip(page * 30 - 30).limit(30);
       const chats = [];
       for (const item of chatsList) {
         const user = await Users.findOne({ _id: item.user_id }, 'userName')
