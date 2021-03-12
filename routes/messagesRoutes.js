@@ -32,4 +32,58 @@ router.get(
   }
 )
 
+// создать новое сообщение
+// /mesages/
+router.post(
+  '/',
+  async (req, res) => {
+    try {
+      const text = req.query.text;
+      const userId = req.query.userId;
+      const chatId = req.query.chatId;
+      const message = new Messages({
+        text: text,
+        user_id: userId,
+        chat_id: chatId,
+        date: Date()
+      })
+      await message.save();
+      res.status(200).json({ message })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
+// удалить сообщение
+// /messages/:id
+router.delete(
+  '/:messageId',
+  async (req, res) => {
+    try {
+      const messageId = req.params.messageId;
+      const message = await Messages.findByIdAndDelete(messageId);
+      res.status(200).json({ message })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
+// редактировать текст
+// /messages//:messageId
+router.put(
+  '/:messageId',
+  async (req, res) => {
+    try {
+      const messageId = req.params.messageId;
+      const text = req.query.text;
+      const message = await Messages.findByIdAndUpdate(messageId, { text: text });
+      res.status(200).json({ message })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
 module.exports = router;
