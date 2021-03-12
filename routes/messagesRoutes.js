@@ -16,9 +16,15 @@ router.get(
       const messagesList = await Messages.find({ chat_id: chatId }).skip(page * 30 - 30).limit(30);
       const messages = [];
       for (const item of messagesList) {
-        const user = await Users.findOne({ _id: item.user_id }, 'userName')
+        let userName;
+        if (item.user_id === 'anonim') {
+          userName = 'Аноним'
+        } else {
+          const user = await Users.findOne({ _id: item.user_id }, 'userName')
+          userName = user.userName;
+        }
         const newItem = {
-          userName: user.userName,
+          userName: userName,
           text: item.text,
           date: item.date,
           id: item._id
