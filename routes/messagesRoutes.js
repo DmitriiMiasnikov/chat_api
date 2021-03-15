@@ -30,13 +30,8 @@ router.post(
       const text = req.query.text;
       const userId = req.query.userId;
       const chatId = req.query.chatId;
-      let userName;
-      if (userId === 'anonim') {
-        userName = 'Аноним'
-      } else {
-        const user = await Users.findOne({ _id: userId }, 'userName')
-        userName = user.userName;
-      }
+      const user = await Users.findOne({ _id: userId }, 'userName')
+      const userName = user.userName;
       const message = new Messages({
         text: text,
         user_id: userId,
