@@ -13,24 +13,7 @@ router.get(
     try {
       const page = Number(req.params.page);
       const chatId = req.query.chatId;
-      const messagesList = await Messages.find({ chat_id: chatId }).skip(page * 30 - 30).limit(30);
-      const messages = [];
-      for (const item of messagesList) {
-        let userName;
-        if (item.user_id === 'anonim') {
-          userName = 'Аноним'
-        } else {
-          const user = await Users.findOne({ _id: item.user_id }, 'userName')
-          userName = user.userName;
-        }
-        const newItem = {
-          userName: userName,
-          text: item.text,
-          date: item.date,
-          id: item._id
-        };
-        messages.push(newItem);
-      }
+      const messages = await Messages.find({ chat_id: chatId }).skip(page * 30 - 30).limit(30);
       res.status(200).json({ messages })
     } catch (e) {
       console.log(e)
@@ -47,9 +30,17 @@ router.post(
       const text = req.query.text;
       const userId = req.query.userId;
       const chatId = req.query.chatId;
+      let userName;
+      if (userId === 'anonim') {
+        userName = 'Аноним'
+      } else {
+        const user = await Users.findOne({ _id: userId }, 'userName')
+        userName = user.userName;
+      }
       const message = new Messages({
         text: text,
         user_id: userId,
+        userName: userName,
         chat_id: chatId,
         date: Date()
       })

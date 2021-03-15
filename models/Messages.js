@@ -17,6 +17,10 @@ const schema = new Schema({
     type: String,
     required: true
   },
+  userName: {
+    type: String,
+    required: true
+  },
 })
 
 module.exports = model('Messages', schema);
