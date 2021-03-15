@@ -17,6 +17,7 @@ router.get(
         const user = await Users.findOne({ _id: item.user_id }, 'userName')
         const newItem = {
           userName: user.userName,
+          userId: user._id,
           title: item.title,
           date: item.date,
           id: item._id
