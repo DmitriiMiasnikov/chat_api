@@ -13,7 +13,8 @@ router.get(
     try {
       const page = Number(req.params.page);
       const chatId = req.query.chatId;
-      const messages = await Messages.find({ chat_id: chatId }).skip(page * 30 - 30).limit(30);
+      let messages = await Messages.find({ chat_id: chatId }).sort({ date: -1 }).skip(page * 30 - 30).limit(30);
+      messages = messages.reverse()
       res.status(200).json({ messages })
     } catch (e) {
       console.log(e)
