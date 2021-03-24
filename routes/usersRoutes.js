@@ -74,4 +74,19 @@ router.get(
   }
 )
 
+// список пользователей
+// /users/list/:page
+router.get(
+  '/list/:page',
+  async (req, res) => {
+    try {
+      const page = Number(req.params.page);
+      const users = await Users.find({}, '_id userName email').skip(page * 30 - 30).limit(30);
+      res.status(200).json({ users })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+)
+
 module.exports = router;
