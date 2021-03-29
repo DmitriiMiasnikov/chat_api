@@ -62,7 +62,7 @@ router.get("/authorization", async (req, res) => {
 // /users/id/:id
 router.get("/id/:id", async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const user = await Users.findOne({ _id: id }, "_id userName email");
     const userChats = await Chats.find({ user_id: id });
     const userMessages = await Messages.find({ user_id: id });
